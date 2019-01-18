@@ -17,22 +17,14 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <springboot.version>1.5.0.RELEASE</springboot.version>
-        <spring-kafka.version>1.1.2.RELEASE</spring-kafka.version>
-        <confluent.version>4.1.0</confluent.version>
-
-        <!--<springboot.version>2.0.0.RELEASE</springboot.version>-->
-        <!--<spring-kafka.version>2.1.4.RELEASE</spring-kafka.version>-->
-        <!--<confluent.version>5.0.0</confluent.version>-->
-
-        <!--<springboot.version>2.1.0.RELEASE</springboot.version>-->
-        <!--<spring-kafka.version>2.2.0.RELEASE</spring-kafka.version>-->
-        <!--<confluent.version>5.1.0</confluent.version>-->
+        <springboot.version>2.1.0.RELEASE</springboot.version>
+        <spring-kafka.version>2.2.0.RELEASE</spring-kafka.version>
+        <confluent.version>5.1.0</confluent.version>
 
         <avro.version>1.8.2</avro.version>
 
         <testcontainers-kafka.version>1.0.0-SNAPSHOT</testcontainers-kafka.version>
-
+        <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!--Maven plugins version-->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -99,9 +91,24 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
@@ -121,6 +128,21 @@
                 <groupId>com.github.ydespreaux.testcontainers</groupId>
                 <artifactId>testcontainers-kafka</artifactId>
                 <version>${testcontainers-kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-access</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -226,6 +248,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/ITAllSuiteTest.java</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>integration-tests</id>

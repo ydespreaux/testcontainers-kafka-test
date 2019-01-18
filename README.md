@@ -10,7 +10,6 @@ Versions
 
 |   lib-testcontainers-kafka-utils |   Spring Boot |    testcontainers-kafka        |
 |:--------------------------------:|:-------------:|:------------------------------:|
-|   1.2.0                          |     2.1.x     |    1.0.x                       |
 |   1.1.0                          |     2.0.x     |    1.0.x                       |
 |   1.0.0                          |     1.5.x     |    1.0.x                       |
 
@@ -20,7 +19,7 @@ Versions
 <dependency>
     <groupId>com.github.ydespreaux.testcontainers.kafka.test</groupId>
     <artifactId>testcontainers-kafka-test</artifactId>
-    <version>1.2.0</version>
+    <version>1.1.0</version>
     <scope>test</scope>
 </dependency>
 ```

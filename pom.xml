@@ -9,7 +9,13 @@
     <packaging>jar</packaging>
 
     <name>testcontainers-kafka-test</name>
-    <description>Bootstrap Springboot Kafka library for tests</description>
+    <description>Utilities for kafka integration tests</description>
+    <url>https://github.com/ydespreaux/testcontainers-kafka-test</url>
+    <licenses>
+        <license>
+            <distribution>GNU General Public License (GPL) version 3.0</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

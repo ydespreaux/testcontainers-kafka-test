@@ -17,7 +17,7 @@ Versions
 
 ```xml
 <dependency>
-    <groupId>com.github.ydespreaux.testcontainers.kafka.test</groupId>
+    <groupId>com.github.ydespreaux.testcontainers</groupId>
     <artifactId>testcontainers-kafka-test</artifactId>
     <version>1.1.0</version>
     <scope>test</scope>

@@ -1,0 +1,116 @@
+package com.github.ydespreaux.testcontainers.kafka.test;
+
+import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.Serializer;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class KafkaTemplateFactory {
+
+    private final ConfluentKafkaContainer container;
+
+    /**
+     * Default constructor
+     *
+     * @param container
+     */
+    public KafkaTemplateFactory(ConfluentKafkaContainer container) {
+        this.container = container;
+    }
+
+    /**
+     * Create a kafkaTemplate with additional properties.
+     *
+     * @param additionalProperties
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties) {
+        return createKafkaTemplate(additionalProperties, (String) null, null);
+    }
+
+    /**
+     * Create a kafkatemplate with specific key serializer and value serializer.
+     *
+     * @param keySerializerClass
+     * @param valueSerializerClass
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(String keySerializerClass, String valueSerializerClass) {
+        return createKafkaTemplate(null, keySerializerClass, valueSerializerClass);
+    }
+
+    /**
+     * Create a kafkatemplate with optional properties and a specific key serializer and value serializer.
+     *
+     * @param additionalProperties
+     * @param keySerializerClass
+     * @param valueSerializerClass
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties, String keySerializerClass, String valueSerializerClass) {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(producerConfigs(additionalProperties, keySerializerClass, valueSerializerClass)));
+    }
+
+    /**
+     * Create a kafkatemplate with specific key serializer  and value serializer
+     * .
+     *
+     * @param keySerializer
+     * @param valueSerializer
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Serializer<K> keySerializer, Serializer<V> valueSerializer) {
+        return createKafkaTemplate(null, keySerializer, valueSerializer);
+    }
+
+    /**
+     * Create a kafkatemplate with optional properties and specific key serializer  and value serializer
+     *
+     * @param additionalProperties
+     * @param keySerializer
+     * @param valueSerializer
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties, Serializer<K> keySerializer, Serializer<V> valueSerializer) {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(producerConfigs(additionalProperties, null, null), keySerializer, valueSerializer));
+    }
+
+
+    /**
+     * Build properties
+     *
+     * @return
+     */
+    private Map<String, Object> producerConfigs(Map<String, Object> additionalProperties, String keySerializerClass, String valueSerializerClass) {
+        Map<String, Object> props = new HashMap<>();
+        if (additionalProperties != null) {
+            props.putAll(additionalProperties);
+        }
+        if (this.container.isSchemaRegistryEnabled()) {
+            props.put("schema.registry.url", this.container.getSchemaRegistryServers());
+        }
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.container.getBootstrapServers());
+        if (keySerializerClass != null) {
+            props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializerClass);
+        }
+        if (valueSerializerClass != null) {
+            props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializerClass);
+        }
+        return props;
+    }
+
+}

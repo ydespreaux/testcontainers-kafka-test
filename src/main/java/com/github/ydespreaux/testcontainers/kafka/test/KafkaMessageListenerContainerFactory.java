@@ -3,9 +3,9 @@ package com.github.ydespreaux.testcontainers.kafka.test;
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
-import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 

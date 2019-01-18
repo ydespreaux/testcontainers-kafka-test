@@ -212,15 +212,3 @@ KafkaMessageListenerContainer<String, Object> listenerContainer = new KafkaMessa
                 1,
                 (MessageListener<String, WorkstationAvro>) record -> records.add(record));
 ```
-
-## Changelog
-
-
-### [1.0.0]
-
-#### Added
-
-- Ajout de la fabrique AvroSerializerFactory
-- Ajout de la fabrique KafkaTemplateFactory
-- Ajout de la fabrique KafkaMessageListenerContainerFactory
-

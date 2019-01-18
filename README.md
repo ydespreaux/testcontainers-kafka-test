@@ -1,9 +1,9 @@
-spring-testcontainers-kafka-test
+testcontainers-kafka-test
 =========================
-Create KafkaTemplate, KafkaMessageContainerListener for tests
+Create KafkaTemplate, KafkaMessageContainerListener for integration tests with kafka.
 
 
-Librairie utilitaire pour les tests d'intégration Kafka
+Utility library for Kafka integration tests
 
 Versions
 -----------
@@ -27,7 +27,7 @@ Versions
 
 #### AvroSerializerFactory
 
-Cette fabrique permet de créer des serializer / deserializer AVRO.
+This factory makes it possible to create AVRO serializer / deserializer.
 
 ```java
 /**
@@ -52,7 +52,7 @@ public KafkaAvroDeserializer createKafkaAvroDeserializer(Boolean isKey);
 public KafkaAvroDeserializer createKafkaAvroDeserializer(Boolean isKey, Boolean specificAvroReader);
 ```
 
-Exemple d'utilisation
+Example:
 
 ```java
 @ClassRule
@@ -65,7 +65,7 @@ KafkaAvroSerializer valueSerializer = new AvroSerializerFactory(kafkaContainerWi
 
 #### KafkaTemplateFactory
 
-Cette fabrique permet de créer des KafkaTemplate.
+This factory makes it possible to create KafkaTemplates.
 
 ```java
 /**
@@ -94,7 +94,7 @@ public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Serializer<K> keySerialize
 public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties, Serializer<K> keySerializer, Serializer<V> valueSerializer);
 ```
 
-Exemple d'utilisation
+Example
 
 ```java
 @ClassRule
@@ -120,7 +120,7 @@ KafkaTemplate<String, Object> template =
 
 #### KafkaMessageListenerContainerFactory
 
-Cette fabrique permet de créer des conteneurs d'écoute.
+This factory makes it possible to create listening containers.
 
 ```java
 public <K, V> KafkaMessageListenerContainer<K, V> createListenerContainer(
@@ -177,7 +177,7 @@ public <K, V> KafkaMessageListenerContainer<K, V> createListenerContainer(Deseri
                                                                            ContainerProperties containerProperties) throws Exception;
 ```
 
-Exemple d'utilisation
+Example:
 
 ```java
 @ClassRule
@@ -195,7 +195,7 @@ KafkaMessageListenerContainer<String, String> listenerContainer = new KafkaMessa
 
 ```
 
-Message au format AVRO
+AVRO message:
 
 ```java
 @ClassRule

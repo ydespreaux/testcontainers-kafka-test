@@ -9,8 +9,19 @@
     <packaging>jar</packaging>
 
     <name>testcontainers-kafka-test</name>
-    <description>Bootstrap Springboot Kafka library for tests</description>
-
+    <description>Utilities for kafka integration tests</description>
+    <url>https://github.com/ydespreaux/testcontainers-kafka-test</url>
+    <licenses>
+        <license>
+            <distribution>GNU General Public License (GPL) version 3.0</distribution>
+        </license>
+    </licenses>
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -24,7 +35,7 @@
 
         <avro.version>1.8.2</avro.version>
 
-        <testcontainers-kafka.version>1.0.0-SNAPSHOT</testcontainers-kafka.version>
+        <testcontainers-kafka.version>1.0.0</testcontainers-kafka.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!--Maven plugins version-->

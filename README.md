@@ -3,7 +3,8 @@ testcontainers-kafka-test
 Create KafkaTemplate, KafkaMessageContainerListener for integration tests with kafka.
 
 
-Utility library for Kafka integration tests
+Utility library for Kafka integration tests.
+The Kafka containerized is detailed at the following url: https://github.com/ydespreaux/testcontainers
 
 Versions
 -----------

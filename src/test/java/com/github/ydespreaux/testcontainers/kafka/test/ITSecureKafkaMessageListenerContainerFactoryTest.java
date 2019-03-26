@@ -21,17 +21,16 @@
 package com.github.ydespreaux.testcontainers.kafka.test;
 
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
-import com.github.ydespreaux.testcontainers.kafka.test.internal.AbstractKafkaTemplateFactoryTest;
+import com.github.ydespreaux.testcontainers.kafka.test.internal.AbstractKafkaMessageListenerContainerFactoryTest;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-public class ITKafkaTemplateFactoryTest extends AbstractKafkaTemplateFactoryTest {
-
+public class ITSecureKafkaMessageListenerContainerFactoryTest extends AbstractKafkaMessageListenerContainerFactoryTest {
 
     @Override
     protected ConfluentKafkaContainer getKafkacontainer() {
-        return ITAllSuiteTest.kafkaContainer;
+        return ITSecureAllSuiteTest.kafkaContainer;
     }
 
 }

@@ -4,7 +4,7 @@
 
     <groupId>com.github.ydespreaux.testcontainers</groupId>
     <artifactId>testcontainers-kafka-test</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>testcontainers-kafka-test</name>
@@ -34,7 +34,7 @@
 
         <avro.version>1.8.2</avro.version>
 
-        <testcontainers-kafka.version>1.0.0</testcontainers-kafka.version>
+        <testcontainers-kafka.version>1.2.0</testcontainers-kafka.version>
         <slf4j.version>1.7.25</slf4j.version>
         <!--Maven plugins version-->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -241,6 +241,7 @@
                 <configuration>
                     <includes>
                         <include>**/ITAllSuiteTest.java</include>
+                        <include>**/ITSecureAllSuiteTest.java</include>
                     </includes>
                 </configuration>
                 <executions>

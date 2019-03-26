@@ -23,6 +23,7 @@
  */
 package com.github.ydespreaux.testcontainers.kafka.test;
 
+import com.github.ydespreaux.testcontainers.kafka.cmd.AclsOperation;
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
 import org.junit.ClassRule;
 import org.junit.runner.RunWith;
@@ -37,17 +38,19 @@ import static com.github.ydespreaux.testcontainers.kafka.test.internal.BrokerCon
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-        ITAvroSerializerFactoryTest.class,
-        ITKafkaTemplateFactoryTest.class,
-        ITKafkaMessageListenerContainerFactoryTest.class
+        ITSecureKafkaTemplateFactoryTest.class,
+        ITSecureKafkaMessageListenerContainerFactoryTest.class
 })
-public class ITAllSuiteTest {
+public class ITSecureAllSuiteTest {
 
 
     @ClassRule
     public static final ConfluentKafkaContainer kafkaContainer = new ConfluentKafkaContainer()
-            .withRegisterSpringbootProperties(false)
+            .withKafkaServerCertificates(kafkaServerCertificates)
+            .withKafkaClientCertificates(kafkaClientCertificates)
             .withSchemaRegistry(true)
+            .withRegisterSpringbootProperties(false)
+            // Topics
             .withTopic(TOPIC_STRING_PRODUCER, TOPIC_STRING_PRODUCER_PARTITIONS, false)
             .withTopic(TOPIC_AVRO_PRODUCER, TOPIC_AVRO_PRODUCER_PARTITIONS, false)
             .withTopic(TOPIC_STRING_CONSUMER, TOPIC_STRING_CONSUMER_PARTITIONS, false)
@@ -56,6 +59,17 @@ public class ITAllSuiteTest {
             .withTopic(TOPIC_STRING_CONSUMER3, TOPIC_STRING_CONSUMER3_PARTITIONS, false)
             .withTopic(TOPIC_STRING_CONSUMER4, TOPIC_STRING_CONSUMER4_PARTITIONS, false)
             .withTopic(TOPIC_STRING_CONSUMER5, TOPIC_STRING_CONSUMER5_PARTITIONS, false)
-            .withTopic(TOPIC_AVRO_CONSUMER, TOPIC_AVRO_CONSUMER_PARTITIONS, false);
+            .withTopic(TOPIC_AVRO_CONSUMER, TOPIC_AVRO_CONSUMER_PARTITIONS, false)
+
+            // Acls
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_PRODUCER, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_AVRO_PRODUCER, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER1, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER2, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER3, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER4, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER5, GROUP_ID)
+            .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_AVRO_CONSUMER, GROUP_ID);
 
 }

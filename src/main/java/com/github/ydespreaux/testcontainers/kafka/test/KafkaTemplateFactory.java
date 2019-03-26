@@ -21,6 +21,7 @@
 package com.github.ydespreaux.testcontainers.kafka.test;
 
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
+import com.github.ydespreaux.testcontainers.kafka.security.Certificates;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -28,18 +29,29 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class KafkaTemplateFactory {
 
     private final ConfluentKafkaContainer container;
+    private final Certificates kafkaClientCertificates;
+
+    /**
+     * Default constructor
+     * @param container
+     */
+    public KafkaTemplateFactory(ConfluentKafkaContainer container) {
+        this(container, container.getKafkaClientCertificates());
+    }
 
     /**
      * Default constructor
      *
      * @param container
      */
-    public KafkaTemplateFactory(ConfluentKafkaContainer container) {
+    public KafkaTemplateFactory(ConfluentKafkaContainer container, Certificates kafkaClientCertificates) {
         this.container = container;
+        this.kafkaClientCertificates = kafkaClientCertificates;
     }
 
     /**
@@ -129,6 +141,10 @@ public class KafkaTemplateFactory {
         }
         if (valueSerializerClass != null) {
             props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializerClass);
+        }
+        if (this.container.isSecured()) {
+            Objects.requireNonNull(this.kafkaClientCertificates, "Client certificates not set.");
+            props.putAll(SecurityUtils.buildSSLProperties(this.kafkaClientCertificates));
         }
         return props;
     }

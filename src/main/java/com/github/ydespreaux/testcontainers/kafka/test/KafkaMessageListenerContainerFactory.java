@@ -21,6 +21,7 @@
 package com.github.ydespreaux.testcontainers.kafka.test;
 
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
+import com.github.ydespreaux.testcontainers.kafka.security.Certificates;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
@@ -30,19 +31,26 @@ import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class KafkaMessageListenerContainerFactory {
 
     private final ConfluentKafkaContainer container;
+    private final Certificates kafkaClientCertificates;
+
+    public KafkaMessageListenerContainerFactory(ConfluentKafkaContainer container) {
+        this(container, container.getKafkaClientCertificates());
+    }
 
     /**
      * Default constructor
      *
      * @param container
      */
-    public KafkaMessageListenerContainerFactory(ConfluentKafkaContainer container) {
+    public KafkaMessageListenerContainerFactory(ConfluentKafkaContainer container, Certificates kafkaClientCertificates) {
         this.container = container;
+        this.kafkaClientCertificates = kafkaClientCertificates;
     }
 
     /**
@@ -243,6 +251,10 @@ public class KafkaMessageListenerContainerFactory {
         Map<String, Object> properties = KafkaTestUtils.consumerProps(this.container.getBootstrapServers(), group, "true");
         if (optionalProperties != null) {
             properties.putAll(optionalProperties);
+        }
+        if (this.container.isSecured()) {
+            Objects.requireNonNull(this.kafkaClientCertificates, "Client certificates not set.");
+            properties.putAll(SecurityUtils.buildSSLProperties(this.kafkaClientCertificates));
         }
         return new DefaultKafkaConsumerFactory<>(properties, keyDeserializer, valueDeserializer);
     }

@@ -26,12 +26,12 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-public class ITKafkaTemplateFactoryTest extends AbstractKafkaTemplateFactoryTest {
+public class ITSecureKafkaTemplateFactoryTest extends AbstractKafkaTemplateFactoryTest {
 
 
     @Override
     protected ConfluentKafkaContainer getKafkacontainer() {
-        return ITAllSuiteTest.kafkaContainer;
+        return ITSecureAllSuiteTest.kafkaContainer;
     }
 
 }

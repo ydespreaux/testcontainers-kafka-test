@@ -16,7 +16,8 @@
 
 #### Changed
 
-- Dépendance avec lib-testcontainers-kafka en version 1.3.0 
+- Upgrade depencey lib-testcontainers-kafka from 1.1.0 to 1.2.0 
+- Migration to jdk 11
 
 ### [1.2.0]
 

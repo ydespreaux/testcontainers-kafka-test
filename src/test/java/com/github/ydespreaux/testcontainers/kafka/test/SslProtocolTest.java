@@ -25,26 +25,25 @@ package com.github.ydespreaux.testcontainers.kafka.test;
 
 import com.github.ydespreaux.testcontainers.kafka.cmd.AclsOperation;
 import com.github.ydespreaux.testcontainers.kafka.rule.ConfluentKafkaContainer;
-import org.junit.ClassRule;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import com.github.ydespreaux.testcontainers.kafka.test.internal.AbstractKafkaMessageListenerContainerFactoryTest;
+import com.github.ydespreaux.testcontainers.kafka.test.internal.AbstractKafkaTemplateFactoryTest;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.github.ydespreaux.testcontainers.kafka.test.internal.BrokerConfiguration.*;
 
 
 /**
- * @author xpax624
+ * @author Yoann Despréaux
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-        ITSecureKafkaTemplateFactoryTest.class,
-        ITSecureKafkaMessageListenerContainerFactoryTest.class
-})
-public class ITSecureAllSuiteTest {
+@Tag("integration")
+@Testcontainers
+public class SslProtocolTest {
 
 
-    @ClassRule
+    @Container
     public static final ConfluentKafkaContainer kafkaContainer = new ConfluentKafkaContainer()
             .withKafkaServerCertificates(kafkaServerCertificates)
             .withKafkaClientCertificates(kafkaClientCertificates)
@@ -72,4 +71,24 @@ public class ITSecureAllSuiteTest {
             .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_STRING_CONSUMER5, GROUP_ID)
             .withAcls(new AclsOperation[]{AclsOperation.READ, AclsOperation.DESCRIBE, AclsOperation.WRITE}, TOPIC_AVRO_CONSUMER, GROUP_ID);
 
+    @Nested
+    class SecureKafkaMessageListenerContainerFactoryTest extends AbstractKafkaMessageListenerContainerFactoryTest {
+
+        @Override
+        protected ConfluentKafkaContainer getKafkacontainer() {
+            return kafkaContainer;
+        }
+
+    }
+
+    @Nested
+    class SecureKafkaTemplateFactoryTest extends AbstractKafkaTemplateFactoryTest {
+
+
+        @Override
+        protected ConfluentKafkaContainer getKafkacontainer() {
+            return kafkaContainer;
+        }
+
+    }
 }

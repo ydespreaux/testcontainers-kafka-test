@@ -34,8 +34,9 @@
         <spring-kafka.version>2.2.0.RELEASE</spring-kafka.version>
         <confluent.version>5.1.0</confluent.version>
         <avro.version>1.8.2</avro.version>
-        <testcontainers-kafka.version>1.2.0</testcontainers-kafka.version>
+        <testcontainers-kafka.version>1.2.1-SNAPSHOT</testcontainers-kafka.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <junit-jupiter.version>5.4.1</junit-jupiter.version>
         <!--Maven plugins version-->
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -105,6 +106,37 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>junit</artifactId>
+                    <groupId>junit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Provide JUnit 5 API -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.4.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.11.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -244,23 +276,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>${surefireArgLine}</argLine>
-                    <!-- Excludes integration tests when unit tests are run. -->
-                    <excludes>
-                        <exclude>**/IT*.java</exclude>
-                    </excludes>
+                    <excludedGroups>integration</excludedGroups>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <argLine>${failsafeArgLine}</argLine>
-                    <includes>
-                        <include>**/ITAllSuiteTest.java</include>
-                        <include>**/ITSecureAllSuiteTest.java</include>
-                    </includes>
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-tests</id>
@@ -269,6 +290,12 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                    <groups>integration</groups>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

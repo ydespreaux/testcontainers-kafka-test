@@ -34,7 +34,7 @@
         <spring-kafka.version>2.2.0.RELEASE</spring-kafka.version>
         <confluent.version>5.1.0</confluent.version>
         <avro.version>1.8.2</avro.version>
-        <testcontainers-kafka.version>1.2.1-SNAPSHOT</testcontainers-kafka.version>
+        <testcontainers-kafka.version>2.0.0-SNAPSHOT</testcontainers-kafka.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit-jupiter.version>5.4.1</junit-jupiter.version>
         <!--Maven plugins version-->
@@ -47,11 +47,6 @@
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <!-- Sonar configuration -->
-        <jacoco.report.ut>${project.build.directory}/jacoco-ut.exec</jacoco.report.ut>
-        <jacoco.report.it>${project.build.directory}/jacoco-it.exec</jacoco.report.it>
-        <sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths>
-        <sonar.jacoco.reportPaths>${jacoco.report.ut},${jacoco.report.it}</sonar.jacoco.reportPaths>
 
     </properties>
     <scm>
@@ -239,10 +234,6 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        <configuration>
-                            <destFile>${jacoco.report.ut}</destFile>
-                            <propertyName>surefireArgLine</propertyName>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>post-unit-test</id>
@@ -256,10 +247,6 @@
                         <goals>
                             <goal>prepare-agent-integration</goal>
                         </goals>
-                        <configuration>
-                            <destFile>${jacoco.report.it}</destFile>
-                            <propertyName>failsafeArgLine</propertyName>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>post-integration-test</id>
@@ -390,7 +377,7 @@
                 <sonar.projectKey>${project.artifactId}:${project.version}</sonar.projectKey>
                 <sonar.projectName>${project.name}</sonar.projectName>
                 <sonar.host.url>http://localhost:9000</sonar.host.url>
-                <sonar.login>b8a6a70ad056ccd9455a4d11c08ba02ad683500d</sonar.login>
+                <sonar.login>af5b598cd35f140b408dcb99117df81e0d5abf03</sonar.login>
             </properties>
         </profile>
     </profiles>

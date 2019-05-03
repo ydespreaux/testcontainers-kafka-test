@@ -29,6 +29,7 @@ import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.lang.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
@@ -99,7 +100,7 @@ public class KafkaMessageListenerContainerFactory {
             String topic,
             int partitions,
             MessageListener<?, ?> listener,
-            Map<String, Object> optionalProperties) throws Exception {
+            @Nullable Map<String, Object> optionalProperties) throws Exception {
         return createListenerContainer(keyDeserializer, valueDeserializer, group, partitions, listener, optionalProperties, new ContainerProperties(topic));
     }
 
@@ -148,7 +149,7 @@ public class KafkaMessageListenerContainerFactory {
             String[] topics,
             int partitions,
             MessageListener<?, ?> listener,
-            Map<String, Object> optionalProperties) throws Exception {
+            @Nullable Map<String, Object> optionalProperties) throws Exception {
         return createListenerContainer(keyDeserializer, valueDeserializer, group, partitions, listener, optionalProperties, new ContainerProperties(topics));
     }
 
@@ -199,7 +200,7 @@ public class KafkaMessageListenerContainerFactory {
             Pattern topicPattern,
             int partitions,
             MessageListener<?, ?> listener,
-            Map<String, Object> optionalProperties) throws Exception {
+            @Nullable Map<String, Object> optionalProperties) throws Exception {
         return createListenerContainer(keyDeserializer, valueDeserializer, group, partitions, listener, optionalProperties, new ContainerProperties(topicPattern));
     }
 
@@ -224,7 +225,7 @@ public class KafkaMessageListenerContainerFactory {
                                                                               String group,
                                                                               int partitions,
                                                                               MessageListener<?, ?> listener,
-                                                                              Map<String, Object> optionalProperties,
+                                                                              @Nullable Map<String, Object> optionalProperties,
                                                                               ContainerProperties containerProperties) throws Exception {
         containerProperties.setMessageListener(listener);
         KafkaMessageListenerContainer<K, V> listenerContainer = new KafkaMessageListenerContainer<>(
@@ -247,7 +248,7 @@ public class KafkaMessageListenerContainerFactory {
     private <K, V> DefaultKafkaConsumerFactory<K, V> createKafkaConsumerFactory(final String group,
                                                                                 final Deserializer<K> keyDeserializer,
                                                                                 final Deserializer<V> valueDeserializer,
-                                                                                final Map<String, Object> optionalProperties) {
+                                                                                @Nullable final Map<String, Object> optionalProperties) {
         Map<String, Object> properties = KafkaTestUtils.consumerProps(this.container.getBootstrapServers(), group, "true");
         if (optionalProperties != null) {
             properties.putAll(optionalProperties);

@@ -26,6 +26,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.lang.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +90,9 @@ public class KafkaTemplateFactory {
      * @param <V>
      * @return
      */
-    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties, String keySerializerClass, String valueSerializerClass) {
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(@Nullable Map<String, Object> additionalProperties,
+                                                          @Nullable String keySerializerClass,
+                                                          @Nullable String valueSerializerClass) {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(producerConfigs(additionalProperties, keySerializerClass, valueSerializerClass)));
     }
 
@@ -117,7 +120,7 @@ public class KafkaTemplateFactory {
      * @param <V>
      * @return
      */
-    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(Map<String, Object> additionalProperties, Serializer<K> keySerializer, Serializer<V> valueSerializer) {
+    public <K, V> KafkaTemplate<K, V> createKafkaTemplate(@Nullable Map<String, Object> additionalProperties, Serializer<K> keySerializer, Serializer<V> valueSerializer) {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(producerConfigs(additionalProperties, null, null), keySerializer, valueSerializer));
     }
 
@@ -127,7 +130,7 @@ public class KafkaTemplateFactory {
      *
      * @return
      */
-    private Map<String, Object> producerConfigs(Map<String, Object> additionalProperties, String keySerializerClass, String valueSerializerClass) {
+    private Map<String, Object> producerConfigs(@Nullable Map<String, Object> additionalProperties, @Nullable String keySerializerClass, @Nullable String valueSerializerClass) {
         Map<String, Object> props = new HashMap<>();
         if (additionalProperties != null) {
             props.putAll(additionalProperties);

@@ -21,6 +21,7 @@
 package com.github.ydespreaux.testcontainers.kafka.test;
 
 import com.github.ydespreaux.testcontainers.kafka.security.Certificates;
+import org.springframework.lang.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ final class SecurityUtils {
     /**
      * @return
      */
-    public static Map<String, String> buildSSLProperties(Certificates certifcates) {
+    public static Map<String, String> buildSSLProperties(@Nullable Certificates certifcates) {
         if (certifcates == null) {
             return Collections.emptyMap();
         }

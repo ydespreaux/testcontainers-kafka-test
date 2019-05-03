@@ -5,6 +5,8 @@
 
 ### Changed
 
+- Migration Java 11
+
 ### Fixed
 
 ### [1.3.1]
@@ -30,6 +32,7 @@
 #### Changed
 
 - Migration spring boot 2.0.X
+
 ### [1.0.0]
 
 - AvroSerializerFactory factory
